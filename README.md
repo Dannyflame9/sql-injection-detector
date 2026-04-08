@@ -45,7 +45,7 @@ A comprehensive security testing tool designed to identify SQL injection vulnera
 
 ```bash
 # Clone repository
-git clone https://github.com/olanitedaniel/sql-injection-detector.git
+git clone https://github.com/Dannyflame9/sql-injection-detector.git
 cd sql-injection-detector
 
 # Create virtual environment
