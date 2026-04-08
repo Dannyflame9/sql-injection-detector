@@ -58,3 +58,52 @@ pip install -r requirements.txt
 
 # Run application
 python app.py
+Access at https://localhost:5000
+
+🔧 Usage
+
+Web Interface
+
+1. Enter target URL with parameter
+2. Select HTTP method (GET/POST)
+3. CLick "Start Scan"
+4. Review vulnerability report
+
+API Endpoint
+
+curl -X POST http://localhost:5000/api/scan \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "http://target.com/page.php?id=1",
+    "parameter": "id",
+    "method": "GET"
+  }'
+
+Response
+
+{
+  "target": "http://target.com/page.php?id=1",
+  "parameter": "id",
+  "method": "GET",
+  "scan_time": "2026-04-08T11:58:00",
+  "vulnerable": true,
+  "findings": [
+    {
+      "type": "Error-based SQLi",
+      "payload": "' OR '1'='1",
+      "evidence": "MySQL syntax error detected",
+      "severity": "High"
+    }
+  ],
+  "total_tests": 50
+}
+
+⚠️ Disclaimer
+
+For authorized security testing only. Always obtain proper permission before testing any system you do not own. Unauthorized access to computer systems is illegal.
+
+📝 License
+MIT License - see LICENSE file
+
+👨‍💻 Author
+Olanite Daniel Pelumi (Ethical Hacker & Security Researcher)
